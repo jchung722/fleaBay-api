@@ -1,24 +1,27 @@
-# README
+[![Build Status](https://travis-ci.org/jchung722/fleaBay-api.svg?branch=master)](https://travis-ci.org/jchung722/fleaBay-api)
+#fleaBay
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**Backend API for fleaBay built with Ruby on Rails**
 
-Things you may want to cover:
+## Setup/Installation
+To install all dependencies, enter the following in the command line:  
+```$ bundle install```
 
-* Ruby version
+## Running Tests
+Enter the following command to run all unit tests:   
+```$ rails test```
 
-* System dependencies
+## Running the Program
+To run the server locally, enter the following command:   
+```$ rails s```
 
-* Configuration
+The server can be accessed locally at http://localhost:3000/.
 
-* Database creation
+## Deployment
+The API is deployed on Heroku. It can be accessed at the following url:  
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Dependencies
+Ruby 2.6.2  
+Rails 6.0.0  
+PostgreSQL 11.2  
+rvm 1.29.9  

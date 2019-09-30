@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/jchung722/fleaBay-api.svg?branch=master)](https://travis-ci.org/jchung722/fleaBay-api)
-#fleaBay
+# fleaBay API
 
 **Backend API for fleaBay built with Ruby on Rails**
 
@@ -19,6 +19,7 @@ The server can be accessed locally at http://localhost:3000/.
 
 ## Deployment
 The API is deployed on Heroku. It can be accessed at the following url:  
+https://fleabay-api.herokuapp.com
 
 ## Dependencies
 Ruby 2.6.2  

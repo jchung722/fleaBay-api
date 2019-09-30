@@ -1,7 +1,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
-require "minitest/reporters"  # for Colorized output
+require "minitest/reporters" # for Colorized output
 
 #  For colorful output!
 Minitest::Reporters.use!(

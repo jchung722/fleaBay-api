@@ -1,9 +1,17 @@
 language: ruby
 services:
-  - postgresql
+- postgresql
 before_script:
-  - cp config/database.yml.travis config/database.yml
-  - psql -c 'create database travis_ci_test;' -U postgres
+- cp config/database.yml.travis config/database.yml
+- psql -c 'create database travis_ci_test;' -U postgres
+- bundle exec rails db:migrate
 script:
-  - bin/rake db:migrate RAILS_ENV=test
-  - bin/rake
+- bin/rake db:migrate RAILS_ENV=test
+- bin/rake
+deploy:
+  provider: heroku
+  api_key:
+    secure: g447ZRT1z7tTA7KTjWUm90xdG8LBN1Wo2kDNbYYBLUW135LbBWB/eTM/QohtEFXXUbhM+2YH7Dj8G6PZVONfAjlalQY5ZV2u8k2F4/Eb+rrT4Dy/0fQA0RgApv4StQ9gLK2jt9IxQN3o1n76QLLJlOSkAdp2bPTSwLUQKPUvOAo+hhXyAAvOeNnrWizA57LS7aEjNx/F6MtNO8nmwu6QjNMo5eB+pmTs3212CRrl//cL7DjoMP4wJdSfMA38vfUVgzQZjMz7hIShZ2T59uf8RU1jf7gNU+VhKiHY/hG4BZgpBEuAwC+5NJNDCCLeCzKLJIU74OiPNHOBFbrnWHXom6jTTHZAgXM6Uu/e8dYirrf50G5sy8/MQbB3SM+T4MyXZZAtghLa+/T/sxBQh4dwDh/e0iQU4YeyK6kIBqjbArFxfRiKZK7Zd3F7ghUKkOpn4jbrYKoYydcgLOsYWYSXoHLka8++x5ir7qC69IjNrrL0kqAqUuYkqI/8yk7oCQZeNWNwxcq73z2kqCwZ1gW/1QEdPyJjMQlVq06YG54DnFW2n90svh8QlyzJzrwKoluMUVGCGnxIyfZmkJfgASGfkP4r1+AuLWbxrYhTiwxnpkw7alKL5NUtOb5hD0P+DS9TdVdNQyN3gYCEBL101fEgbSQYt8pSY2q194a7K7+J8YA=
+  app: fleabay-api
+  on:
+    repo: jchung722/fleaBay-api

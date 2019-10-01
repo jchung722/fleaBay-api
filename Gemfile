@@ -16,7 +16,7 @@ gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 # Use pry for rails console, enable binding.pry
-gem "pry-rails"
+gem 'pry-rails'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -26,6 +26,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
+
+gem 'jwt_sessions'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -39,9 +41,9 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Improve the error message you get in the browser
-  gem "better_errors"
+  gem 'better_errors'
   # Nice interactive terminal when an exception happens
-  gem "binding_of_caller"
+  gem 'binding_of_caller'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

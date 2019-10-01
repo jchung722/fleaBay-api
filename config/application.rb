@@ -35,7 +35,7 @@ module FleaBayApi
     config.api_only = true
 
     config.generators do |g|
-      g.test_framework :minitest, spec: true
+      g.test_framework :rspec
     end
   end
 end

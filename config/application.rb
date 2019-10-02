@@ -37,5 +37,7 @@ module FleaBayApi
     config.generators do |g|
       g.test_framework :rspec
     end
+
+    config.eager_load_paths << Rails.root.join('lib')
   end
 end

@@ -6,12 +6,18 @@
 ## Setup/Installation
 To install all dependencies, enter the following in the command line:  
 ```$ bundle install```
+  
+Make sure to have redis installed on your local machine. The following installs redis via homebrew:  
+```$ brew install redis```
 
 ## Running Tests
 Enter the following command to run all unit tests:   
 ```$ rails spec```
 
 ## Running the Program
+Run the redis server:  
+```$ redis-server /usr/local/etc/redis.conf```
+  
 To run the server locally, enter the following command:   
 ```$ rails s```
 

@@ -13,9 +13,12 @@ RSpec.describe SignupController, type: :controller do
     it 'creates a session if a valid user is created' do
       user = User.new(email: 'tester@gmail.com', password: 'badpassword')
       allow(User).to receive(:new) { user }
+      allow(JwtSessionWrapper).to receive(:create_session) { { csrf: 'token' } }
 
-      expect(JwtSessionWrapper).to receive(:create_session)
       post :create
+
+      body = JSON.parse(response.body)
+      expect(body['csrf']).to eq('token')
     end
 
     it 'sends a json error message for invalid user parameters' do

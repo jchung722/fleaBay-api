@@ -14,9 +14,12 @@ RSpec.describe SigninController, type: :controller do
       user = User.new(email: 'tester@gmail.com', password: 'badpassword')
       allow(User).to receive(:find_by) { user }
       allow(user).to receive(:authenticate) { true }
+      allow(JwtSessionWrapper).to receive(:create_session) { { csrf: 'token' } }
 
-      expect(JwtSessionWrapper).to receive(:create_session)
       post :create
+
+      body = JSON.parse(response.body)
+      expect(body['csrf']).to eq('token')
     end
 
     it 'sends a json error message for unauthorized user' do
@@ -38,6 +41,7 @@ RSpec.describe SigninController, type: :controller do
 
       expect(JwtSessionWrapper).to receive(:end_session)
       delete :destroy
+      expect(response).to have_http_status(:ok)
     end
   end
 end

@@ -3,7 +3,8 @@ class SigninController < ApplicationController
   def create
     user = User.find_by(email: params[:email])
     if user.authenticate(params[:password])
-      JwtSessionWrapper.create_session(user)
+      tokens = JwtSessionWrapper.create_session(user, response)
+      render json: { csrf: tokens[:csrf] }
     else
       not_authorized
     end
@@ -11,5 +12,6 @@ class SigninController < ApplicationController
 
   def destroy
     JwtSessionWrapper.end_session
+    render json: :ok
   end
 end

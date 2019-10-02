@@ -9,4 +9,10 @@ class JwtSessionWrapper
                         secure: Rails.env.production?)
     render json: { csrf: tokens[:csrf] }
   end
+
+  def self.end_session
+    session = JWTSessions::Session.new(payload: payload)
+    session.flush_by_access_payload
+    render json: :ok
+  end
 end

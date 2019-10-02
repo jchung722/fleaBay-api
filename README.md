@@ -9,7 +9,7 @@ To install all dependencies, enter the following in the command line:
 
 ## Running Tests
 Enter the following command to run all unit tests:   
-```$ rails test```
+```$ rails spec```
 
 ## Running the Program
 To run the server locally, enter the following command:   
@@ -26,3 +26,4 @@ Ruby 2.6.2
 Rails 6.0.0  
 PostgreSQL 11.2  
 rvm 1.29.9  
+Redis server 5.0.5

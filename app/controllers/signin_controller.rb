@@ -11,7 +11,7 @@ class SigninController < ApplicationController
   end
 
   def destroy
-    JwtSessionWrapper.end_session
+    JwtSessionWrapper.end_session(payload)
     render json: :ok
   end
 end

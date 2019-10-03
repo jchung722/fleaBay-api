@@ -38,6 +38,7 @@ RSpec.describe SigninController, type: :controller do
   describe 'DELETE #destroy' do
     it 'ends session for authenticated user' do
       allow(controller).to receive(:authorize_access_request!)
+      allow(controller).to receive(:payload)
 
       expect(JwtSessionWrapper).to receive(:end_session)
       delete :destroy

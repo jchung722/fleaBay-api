@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'validations' do
+    subject { User.new(email: 'test@email.com,', password: 'pw') }
     it { should validate_presence_of(:email) }
+    it { should validate_uniqueness_of(:email) }
     it { should have_secure_password }
 
     it 'validates an email with correct format' do

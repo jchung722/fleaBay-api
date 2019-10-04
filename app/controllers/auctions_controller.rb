@@ -1,6 +1,6 @@
 class AuctionsController < ApplicationController
   before_action :authorize_access_request!, except: [:show, :index]
-  before_action :set_auction, only: [:show, :update, :destroy]
+  before_action :set_auction, only: [:update, :destroy]
 
   def index
     @auctions = Auction.all
@@ -9,11 +9,12 @@ class AuctionsController < ApplicationController
   end
 
   def show
+    @auction = Auction.find(params[:id])
     render json: @auction
   end
 
   def create
-    @auction = Auction.new(auction_params)
+    @auction = current_user.auctions.build(auction_params)
 
     if @auction.save
       render json: @auction, status: :created, location: @auction
@@ -37,7 +38,7 @@ class AuctionsController < ApplicationController
   private
 
   def set_auction
-    @auction = Auction.find(params[:id])
+    @auction = current_user.auctions.find(params[:id])
   end
 
   def auction_params

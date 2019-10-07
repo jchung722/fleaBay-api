@@ -11,4 +11,38 @@ RSpec.describe Auction, type: :model do
     it { should validate_presence_of(:starting_bid) }
     it { should validate_presence_of(:end_date) }
   end
+
+  describe '#highest_bid' do
+    it 'will return nil if no bids were made' do
+      auction = Auction.new(name: 'cool thing', starting_bid: 2, end_date: Date.today)
+
+      expect(auction.highest_bid).to be_nil
+    end
+
+    it 'will return highest bid if competing bids are made' do
+      user = User.create(email: 'test@gmail.com', password: 'pw')
+      auction = Auction.create(name: 'cool thing', starting_bid: 2, end_date: Date.tomorrow, user: user)
+      lower_bid = auction.bids.create(amount: 3, user: user)
+      higher_bid = auction.bids.create(amount: 5, user: user)
+
+      expect(auction.highest_bid).to eq(higher_bid)
+    end
+  end
+
+  describe '#highest_bid_amount' do
+    it 'will return highest bid amount as starting bid if no bids are made' do
+      auction = Auction.new(name: 'cool thing', starting_bid: 2, end_date: Date.today)
+
+      expect(auction.highest_bid_amount).to eq(2)
+    end
+
+    it 'will return highest bid amount when competing bids are made' do
+      user = User.create(email: 'test@gmail.com', password: 'pw')
+      auction = Auction.create(name: 'cool thing', starting_bid: 2, end_date: Date.tomorrow, user: user)
+      lower_bid = auction.bids.create(amount: 3, user: user)
+      higher_bid = auction.bids.create(amount: 5, user: user)
+
+      expect(auction.highest_bid_amount).to eq(5)
+    end
+  end
 end

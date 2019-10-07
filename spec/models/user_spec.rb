@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'associations' do
-    it { should have_many(:auctions)}
+    it { should have_many(:auctions) }
+    it { should have_many(:bids) }
   end
-  
+
   describe 'validations' do
     subject { User.new(email: 'test@email.com,', password: 'pw') }
     it { should validate_presence_of(:email) }

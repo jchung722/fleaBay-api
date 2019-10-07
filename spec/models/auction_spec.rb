@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Auction, type: :model do
   describe 'associations' do
-    it { should belong_to(:user)}
+    it { should belong_to(:user) }
+    it { should have_many(:bids) }
   end
 
   describe 'validations' do

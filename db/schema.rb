@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_07_155009) do
+ActiveRecord::Schema.define(version: 2019_10_07_162338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,16 @@ ActiveRecord::Schema.define(version: 2019_10_07_155009) do
     t.index ["user_id"], name: "index_auctions_on_user_id"
   end
 
+  create_table "bids", force: :cascade do |t|
+    t.float "amount"
+    t.bigint "user_id", null: false
+    t.bigint "auction_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["auction_id"], name: "index_bids_on_auction_id"
+    t.index ["user_id"], name: "index_bids_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -57,4 +67,6 @@ ActiveRecord::Schema.define(version: 2019_10_07_155009) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "auctions", "users"
+  add_foreign_key "bids", "auctions"
+  add_foreign_key "bids", "users"
 end

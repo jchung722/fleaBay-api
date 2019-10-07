@@ -4,7 +4,6 @@ class AuctionsController < ApplicationController
 
   def index
     @auctions = Auction.all
-
     render json: @auctions
   end
 
@@ -17,6 +16,7 @@ class AuctionsController < ApplicationController
     @auction = current_user.auctions.build(auction_params)
 
     if @auction.save
+      @auction.image.attach
       render json: @auction, status: :created, location: @auction
     else
       render json: @auction.errors, status: :unprocessable_entity

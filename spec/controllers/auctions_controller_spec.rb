@@ -24,7 +24,7 @@ RSpec.describe AuctionsController, type: :controller do
     it 'creates an auction for the current user' do
       allow(controller).to receive(:authorize_access_request!)
       user = User.new(email: 'tester@gmail.com', password: 'badpassword')
-      valid_attributes = { name: 'name', bid: 1, end_date: Date.today}
+      valid_attributes = { name: 'name', starting_bid: 1, end_date: Date.today}
       auction = Auction.new(valid_attributes)
       allow(controller).to receive(:current_user) { user }
 
@@ -36,7 +36,7 @@ RSpec.describe AuctionsController, type: :controller do
     it 'renders a JSON response with status of created for an auction with valid attributes' do
       allow(controller).to receive(:authorize_access_request!)
       user = User.new(email: 'tester@gmail.com', password: 'badpassword')
-      valid_attributes = { name: 'name', bid: 1, end_date: Date.today, user_id: user }
+      valid_attributes = { name: 'name', starting_bid: 1, end_date: Date.today, user_id: user }
       auction = Auction.new(valid_attributes)
       allow(controller).to receive(:current_user) { user }
       allow(user).to receive_message_chain(:auctions, :build) { auction }
@@ -64,7 +64,7 @@ RSpec.describe AuctionsController, type: :controller do
     it 'updates the requested auction for the current user' do
       allow(controller).to receive(:authorize_access_request!)
       user = User.new(email: 'tester@gmail.com', password: 'badpassword')
-      auction = Auction.new(name: 'name', bid: 1, end_date: Date.today, user_id: user)
+      auction = Auction.new(name: 'name', starting_bid: 1, end_date: Date.today, user_id: user)
       allow(controller).to receive(:current_user) { user }
 
       expect(user).to receive_message_chain(:auctions, :find).with('1') { auction }
@@ -75,7 +75,7 @@ RSpec.describe AuctionsController, type: :controller do
     it 'renders a JSON response with OK status for valid auction update' do
       allow(controller).to receive(:authorize_access_request!)
       user = User.new(email: 'tester@gmail.com', password: 'badpassword')
-      auction = Auction.new(name: 'name', bid: 1, end_date: Date.today, user_id: user)
+      auction = Auction.new(name: 'name', starting_bid: 1, end_date: Date.today, user_id: user)
       allow(controller).to receive(:current_user) { user }
       allow(user).to receive_message_chain(:auctions, :find) { auction }
       allow(auction).to receive(:update) { true }

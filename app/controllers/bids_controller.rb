@@ -5,7 +5,7 @@ class BidsController < ApplicationController
     @bid = current_user.bids.build(amount: params[:bid][:amount], auction_id: params[:id])
 
     if @bid.save
-      render json: @bid, status: :created, location: @bid
+      render json: @bid, status: :created, location: bids_url
     else
       render json: @bid.errors.full_messages.join(' '), status: :unprocessable_entity
     end

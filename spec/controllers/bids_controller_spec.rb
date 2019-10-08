@@ -36,7 +36,7 @@ RSpec.describe BidsController, type: :controller do
       allow(bid).to receive(:save) { false }
 
       expect(bid).to receive_message_chain(:errors, :full_messages, :join)
-      post :create, params: { bid: { amount: nil } }
+      post :create, params: { bid: { amount: nil }, id: 1 }
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
@@ -47,7 +47,7 @@ RSpec.describe BidsController, type: :controller do
       allow(user).to receive_message_chain(:bids, :build) { bid }
 
       expect(bid).to receive(:save).never
-      post :create, params: { bid: { amount: nil } }
+      post :create, params: { bid: { amount: nil }, id: 1 }
       expect(response).to have_http_status(:unauthorized)
     end
   end

@@ -10,7 +10,13 @@ class AuctionsController < ApplicationController
 
   def show
     @auction = Auction.find(params[:id])
-    render json: @auction
+    auction_owner = @auction.user.email
+    highest_bid = @auction.highest_bid
+    highest_bidder = highest_bid&.user&.email
+    render json: { auction: @auction,
+                   auction_owner: auction_owner,
+                   highest_bid: highest_bid,
+                   highest_bidder: highest_bidder }
   end
 
   def create
@@ -42,6 +48,6 @@ class AuctionsController < ApplicationController
   end
 
   def auction_params
-    params.require(:auction).permit(:name, :description, :picture, :bid, :end_date, :user_id)
+    params.require(:auction).permit(:name, :description, :picture, :starting_bid, :end_date, :user_id)
   end
 end

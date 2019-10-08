@@ -15,8 +15,59 @@ RSpec.describe AuctionsController, type: :controller do
 
   describe 'GET #show' do
     it 'finds the requested auction' do
-      expect(Auction).to receive(:find).with('1')
+      auction = double('my_auction')
+      bid = double('bid')
+      allow(auction).to receive_message_chain(:user, :email)
+      allow(auction).to receive(:highest_bid) { bid }
+      allow(bid).to receive_message_chain(:user, :email)
+
+      expect(Auction).to receive(:find).with('1') { auction }
       get :show, params: { id: 1 }
+
+      body = JSON.parse(response.body)
+      expect(body['auction']['name']).to eq('my_auction')
+    end
+
+    it 'finds the email of requested auction owner' do
+      auction = double('auction')
+      bid = double('bid')
+      allow(Auction).to receive(:find).with('1') { auction }
+      allow(auction).to receive(:highest_bid) { bid }
+      allow(bid).to receive_message_chain(:user, :email)
+
+      expect(auction).to receive_message_chain(:user, :email) { 'owner@email.com' }
+      get :show, params: { id: 1 }
+
+      body = JSON.parse(response.body)
+      expect(body['auction_owner']).to eq('owner@email.com')
+    end
+
+    it 'finds the highest bid of the requested auction' do
+      auction = double('auction')
+      bid = double('my_bid')
+      allow(Auction).to receive(:find).with('1') { auction }
+      allow(auction).to receive_message_chain(:user, :email)
+      allow(bid).to receive_message_chain(:user, :email)
+
+      expect(auction).to receive(:highest_bid) { bid }
+      get :show, params: { id: 1 }
+
+      body = JSON.parse(response.body)
+      expect(body['highest_bid']['name']).to eq('my_bid')
+    end
+
+    it 'finds the email of highest bidder of requested auction' do
+      auction = double('auction')
+      bid = double('my_bid')
+      allow(Auction).to receive(:find).with('1') { auction }
+      allow(auction).to receive_message_chain(:user, :email)
+      allow(auction).to receive(:highest_bid) { bid }
+
+      expect(bid).to receive_message_chain(:user, :email) { 'bidowner@email.com' }
+      get :show, params: { id: 1 }
+
+      body = JSON.parse(response.body)
+      expect(body['highest_bidder']).to eq('bidowner@email.com')
     end
   end
 
@@ -58,6 +109,16 @@ RSpec.describe AuctionsController, type: :controller do
       post :create, params: { auction: { name: 'name' } }
       expect(response).to have_http_status(:unprocessable_entity)
     end
+
+    it 'does not allow unauthorized users to create bid' do
+      auction = double('auction')
+      user = double('user')
+      allow(user).to receive_message_chain(:auctions, :build) { auction }
+
+      expect(auction).to receive(:save).never
+      post :create
+      expect(response).to have_http_status(:unauthorized)
+    end
   end
 
   describe 'PUT #update' do
@@ -96,6 +157,17 @@ RSpec.describe AuctionsController, type: :controller do
       put :update, params: { id: 1, auction: { name: 'new_name' } }
       expect(response).to have_http_status(:unprocessable_entity)
     end
+
+    it 'does not allow unauthorized users to create bid' do
+      user = double('user')
+      auction = double('auction')
+      allow(controller).to receive(:current_user) { user }
+      allow(user).to receive_message_chain(:auctions, :find) { auction }
+
+      expect(auction).to receive(:update).never
+      put :update, params: { id: 1, auction: { name: 'new_name' } }
+      expect(response).to have_http_status(:unauthorized)
+    end
   end
 
   describe 'DELETE #destroy' do
@@ -108,6 +180,17 @@ RSpec.describe AuctionsController, type: :controller do
       expect(user).to receive_message_chain(:auctions, :find).with('1') { auction }
       expect(auction).to receive(:destroy)
       delete :destroy, params: { id: 1 }
+    end
+
+    it 'does not allow unauthorized users to delete bid' do
+      user = double('user')
+      auction = double('auction')
+      allow(controller).to receive(:current_user) { user }
+      allow(user).to receive_message_chain(:auctions, :find).with('1') { auction }
+
+      expect(auction).to receive(:update).never
+      delete :destroy, params: { id: 1 }
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 end

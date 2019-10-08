@@ -39,8 +39,8 @@ RSpec.describe Auction, type: :model do
     it 'will return highest bid amount when competing bids are made' do
       user = User.create(email: 'test@gmail.com', password: 'pw')
       auction = Auction.create(name: 'cool thing', starting_bid: 2, end_date: Date.tomorrow, user: user)
-      lower_bid = auction.bids.create(amount: 3, user: user)
-      higher_bid = auction.bids.create(amount: 5, user: user)
+      auction.bids.create(amount: 3, user: user)
+      auction.bids.create(amount: 5, user: user)
 
       expect(auction.highest_bid_amount).to eq(5)
     end

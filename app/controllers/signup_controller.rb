@@ -5,7 +5,7 @@ class SignupController < ApplicationController
       tokens = JwtSessionWrapper.create_session(user, response)
       render json: { csrf: tokens[:csrf] }
     else
-      render json: { error: user.errors.full_messages.join(' ') }, status: :unprocessable_entity
+      render json: { error: user.errors.full_messages.join('; ') }, status: :unprocessable_entity
     end
   end
 

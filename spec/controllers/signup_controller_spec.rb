@@ -10,7 +10,7 @@ RSpec.describe SignupController, type: :controller do
       post :create
     end
 
-    it 'creates a session if a valid user is created' do
+    it 'creates a session token if a valid user is created' do
       user = User.new(email: 'tester@gmail.com', password: 'badpassword')
       allow(User).to receive(:new) { user }
       allow(JwtSessionWrapper).to receive(:create_session) { { csrf: 'token' } }
@@ -29,7 +29,7 @@ RSpec.describe SignupController, type: :controller do
 
       body = JSON.parse(response.body)
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(body['error']).to eq("Email can't be blank Email is invalid Password can't be blank")
+      expect(body['error']).to eq("Email can't be blank; Email is invalid; Password can't be blank")
     end
   end
 end

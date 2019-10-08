@@ -10,7 +10,7 @@ RSpec.describe SigninController, type: :controller do
       post :create
     end
 
-    it 'creates a session for authenticated user' do
+    it 'creates a session token for authenticated user' do
       user = User.new(email: 'tester@gmail.com', password: 'badpassword')
       allow(User).to receive(:find_by) { user }
       allow(user).to receive(:authenticate) { true }
@@ -43,6 +43,12 @@ RSpec.describe SigninController, type: :controller do
       expect(JwtSessionWrapper).to receive(:end_session)
       delete :destroy
       expect(response).to have_http_status(:ok)
+    end
+
+    it 'can not end session for unauthorized user' do
+      expect(JwtSessionWrapper).to receive(:end_session).never
+      delete :destroy
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 end

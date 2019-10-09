@@ -105,7 +105,7 @@ RSpec.describe AuctionsController, type: :controller do
       allow(user).to receive_message_chain(:auctions, :build) { auction }
       allow(auction).to receive(:save) { false }
 
-      expect(auction).to receive(:errors)
+      expect(auction).to receive_message_chain(:errors, :full_messages, :join)
       post :create, params: { auction: { name: 'name' } }
       expect(response).to have_http_status(:unprocessable_entity)
     end
@@ -153,7 +153,7 @@ RSpec.describe AuctionsController, type: :controller do
       allow(user).to receive_message_chain(:auctions, :find) { auction }
       allow(auction).to receive(:update) { false }
 
-      expect(auction).to receive(:errors)
+      expect(auction).to receive_message_chain(:errors, :full_messages, :join)
       put :update, params: { id: 1, auction: { name: 'new_name' } }
       expect(response).to have_http_status(:unprocessable_entity)
     end

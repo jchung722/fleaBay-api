@@ -25,7 +25,7 @@ class AuctionsController < ApplicationController
     if @auction.save
       render json: @auction, status: :created, location: @auction
     else
-      render json: @auction.errors, status: :unprocessable_entity
+      render json: { error: @auction.errors.full_messages.join('; ') }, status: :unprocessable_entity
     end
   end
 
@@ -33,7 +33,7 @@ class AuctionsController < ApplicationController
     if @auction.update(auction_params)
       render json: @auction
     else
-      render json: @auction.errors, status: :unprocessable_entity
+      render json: { error: @auction.errors.full_messages.join('; ') }, status: :unprocessable_entity
     end
   end
 

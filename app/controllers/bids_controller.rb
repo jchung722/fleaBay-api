@@ -7,7 +7,7 @@ class BidsController < ApplicationController
     if @bid.save
       render json: @bid, status: :created, location: bids_url
     else
-      render json: @bid.errors.full_messages.join(' '), status: :unprocessable_entity
+      render json: { error: @bid.errors.full_messages.join('; ') }, status: :unprocessable_entity
     end
   end
 end

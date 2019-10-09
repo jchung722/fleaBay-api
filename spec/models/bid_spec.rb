@@ -7,8 +7,8 @@ RSpec.describe Bid, type: :model do
   end
 
   describe 'validations' do
-    let(:user) { User.new(email: 'test@gmail.com', password: 'pw') }
-    let(:auction) { Auction.new(name: 'cool thing', starting_bid: '2', end_date: Date.tomorrow) }
+    let(:user) { User.new(id: 1, email: 'test@gmail.com', password: 'pw') }
+    let(:auction) { Auction.new(name: 'cool thing', starting_bid: '2', end_date: Date.tomorrow, user_id: 2) }
 
     it { should validate_presence_of(:amount) }
 
@@ -41,6 +41,17 @@ RSpec.describe Bid, type: :model do
     it 'invalidates a bid created after auction end date' do
       auction_yesterday = Auction.new(name: 'cool thing', starting_bid: '2', end_date: Date.yesterday)
       test_bid = Bid.new(amount: 3, user: user, auction: auction_yesterday)
+      expect(test_bid).not_to be_valid
+    end
+
+    it 'validates a bid created by non auction owner' do
+      test_bid = Bid.new(amount: 3, user: user, auction: auction)
+      expect(test_bid).to be_valid
+    end
+
+    it 'invalidates a bid created by owner of auction' do
+      auction.user_id = 1
+      test_bid = Bid.new(amount: 3, user_id: 1, auction: auction)
       expect(test_bid).not_to be_valid
     end
   end

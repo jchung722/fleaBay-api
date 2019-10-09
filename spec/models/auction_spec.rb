@@ -10,6 +10,7 @@ RSpec.describe Auction, type: :model do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:starting_bid) }
     it { should validate_presence_of(:end_date) }
+    it { should validate_numericality_of(:starting_bid).is_greater_than(0)}
   end
 
   describe '#highest_bid' do

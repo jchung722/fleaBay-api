@@ -11,6 +11,7 @@ RSpec.describe Bid, type: :model do
     let(:auction) { Auction.new(name: 'cool thing', starting_bid: '2', end_date: Date.tomorrow, user_id: 2) }
 
     it { should validate_presence_of(:amount) }
+    it { should validate_numericality_of(:amount).is_greater_than(0)}
 
     it 'validates a bid amount that is higher than current highest auction bid' do
       over_bid = Bid.new(amount: 3, user: user, auction: auction)

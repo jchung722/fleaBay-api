@@ -2,7 +2,7 @@ class Auction < ApplicationRecord
   belongs_to :user
   has_many :bids
   validates :name, presence: true
-  validates :starting_bid, presence: true
+  validates :starting_bid, presence: true, numericality: { greater_than: 0 }
   validates :end_date, presence: true
 
   def highest_bid

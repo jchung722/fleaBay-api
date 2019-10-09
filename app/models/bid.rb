@@ -1,7 +1,7 @@
 class Bid < ApplicationRecord
   belongs_to :user
   belongs_to :auction
-  validates :amount, presence: true
+  validates :amount, presence: true, numericality: { greater_than: 0 }
   validate :amount_must_be_highest_bid
   validate :auction_cannot_be_over
   validate :bidder_cannot_be_auction_owner

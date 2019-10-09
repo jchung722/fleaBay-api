@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_07_162338) do
+ActiveRecord::Schema.define(version: 2019_10_09_024348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_162338) do
     t.string "name", null: false
     t.string "description"
     t.string "picture"
-    t.float "starting_bid", null: false
+    t.decimal "starting_bid", precision: 9, scale: 2, null: false
     t.date "end_date", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_162338) do
   end
 
   create_table "bids", force: :cascade do |t|
-    t.float "amount"
+    t.decimal "amount", precision: 9, scale: 2, null: false
     t.bigint "user_id", null: false
     t.bigint "auction_id", null: false
     t.datetime "created_at", precision: 6, null: false

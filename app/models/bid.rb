@@ -7,11 +7,11 @@ class Bid < ApplicationRecord
   validate :bidder_cannot_be_auction_owner
 
   def amount_must_be_highest_bid
-    errors.add(:amount, "can't be lower than highest bid") unless auction && amount > auction.highest_bid_amount
+    errors.add(:amount, 'must be higher than highest bid') unless auction && amount > auction.highest_bid_amount
   end
 
   def auction_cannot_be_over
-    errors.add(:auction, "can't be over") unless auction && auction.end_date > Date.today
+    errors.add(:auction, "can't be past end date") unless auction && auction.end_date > Date.today
   end
 
   def bidder_cannot_be_auction_owner

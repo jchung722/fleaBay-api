@@ -4,6 +4,11 @@ class Auction < ApplicationRecord
   validates :name, presence: true
   validates :starting_bid, presence: true, numericality: { greater_than: 0 }
   validates :end_date, presence: true
+  validate :end_date_must_be_future
+
+  def end_date_must_be_future
+    errors.add(:end_date, 'must be later than today') unless end_date && end_date > Date.today
+  end
 
   def highest_bid
     self&.bids&.order(amount: :desc)&.first

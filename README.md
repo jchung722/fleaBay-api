@@ -5,7 +5,10 @@
 
 ## Setup/Installation
 To install all dependencies, enter the following in the command line:  
-```$ bundle install```
+```$ bundle install```  
+
+Make sure postgreSQL is installed and running on your machine:  
+https://www.postgresql.org/download/
 
 Create database schema:  
 ```$ rails db:migrate```

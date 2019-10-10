@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
   resources :auctions
 
-  resource :bids, only: [:create], path: '/auctions/:id/bids'
-
-  post '/auctions/:id/bids/', to: 'bids#create'
+  resources :bids, only: [:create], path: '/auctions/:id/bids'
 
   post '/refresh', to: 'refresh#create'
 

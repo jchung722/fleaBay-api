@@ -29,7 +29,7 @@ RSpec.describe Auction, type: :model do
     it 'invalidates an end_date earlier than today' do
       user = User.new(id: 1, email: 'test@gmail.com', password: 'pw')
       auction = Auction.new(name: 'cool thing', starting_bid: '2', end_date: Date.yesterday, user: user)
-      
+
       expect(auction).not_to be_valid
     end
   end
@@ -45,7 +45,7 @@ RSpec.describe Auction, type: :model do
       user = User.create(email: 'test@gmail.com', password: 'pw')
       bidder = User.create(email: 'test2@gmail.com', password: 'pw')
       auction = Auction.create(name: 'cool thing', starting_bid: 2, end_date: Date.tomorrow, user: user)
-      lower_bid = auction.bids.create(amount: 3, user: bidder)
+      auction.bids.create(amount: 3, user: bidder)
       higher_bid = auction.bids.create(amount: 5, user: bidder)
 
       expect(auction.highest_bid).to eq(higher_bid)

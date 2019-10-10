@@ -5,7 +5,7 @@ class AuctionsController < ApplicationController
   def index
     @auctions = Auction.all
 
-    render json: @auctions
+    render json: @auctions, include: :highest_bid
   end
 
   def show
